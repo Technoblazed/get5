@@ -439,7 +439,7 @@ public void OnPluginStart() {
       CreateGlobalForward("Get5_OnPreLoadMatchConfig", ET_Ignore, Param_String);
   g_OnSeriesInit = CreateGlobalForward("Get5_OnSeriesInit", ET_Ignore);
   g_OnSeriesResult =
-      CreateGlobalForward("Get5_OnSeriesResult", ET_Ignore, Param_Cell, Param_Cell, Param_Cell);
+      CreateGlobalForward("Get5_OnSeriesResult", ET_Ignore, Param_Cell, Param_Cell, Param_Cell, Param_Cell);
 
   /** Start any repeating timers **/
   CreateTimer(CHECK_READY_TIMER_INTERVAL, Timer_CheckReady, _, TIMER_REPEAT);
@@ -656,7 +656,7 @@ static void CheckReadyWaitingTime(MatchTeam team) {
       Get5_MessageToAll("%t", "TeamForfeitInfoMessage", g_FormattedTeamNames[team]);
       ChangeState(GameState_None);
       Stats_Forfeit(team);
-      EndSeries();
+      EndSeries(true);
 
     } else if (timeLeft >= 300 && timeLeft % 60 == 0) {
       Get5_MessageToAll("%t", "MinutesToForfeitMessage", g_FormattedTeamNames[team], timeLeft / 60);
@@ -706,6 +706,7 @@ public Action Command_EndMatch(int client, int args) {
   Call_PushCell(MatchTeam_TeamNone);
   Call_PushCell(g_TeamSeriesScores[MatchTeam_Team1]);
   Call_PushCell(g_TeamSeriesScores[MatchTeam_Team2]);
+  Call_PushCell(false);
   Call_Finish();
 
   UpdateClanTags();
@@ -975,7 +976,7 @@ public void KickClientsOnEnd() {
   }
 }
 
-public void EndSeries() {
+public void EndSeries(forfeit = false) {
   DelayFunction(10.0, KickClientsOnEnd);
   StopRecording();
 
@@ -997,6 +998,7 @@ public void EndSeries() {
   Call_PushCell(winningTeam);
   Call_PushCell(t1maps);
   Call_PushCell(t2maps);
+  Call_PushCell(forfeit);
   Call_Finish();
 
   RestoreCvars(g_MatchConfigChangedCvars);

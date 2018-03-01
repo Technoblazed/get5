@@ -335,7 +335,7 @@ static void AddIntParam(Handle request, const char[] key, int value) {
   AddStringParam(request, key, buffer);
 }
 
-public void Get5_OnSeriesResult(MatchTeam seriesWinner, int team1MapScore, int team2MapScore) {
+public void Get5_OnSeriesResult(MatchTeam seriesWinner, int team1MapScore, int team2MapScore, bool forfeit) {
   char winnerString[64];
   GetTeamString(seriesWinner, winnerString, sizeof(winnerString));
 

@@ -301,7 +301,7 @@ public void AddPlayerStats(KeyValues kv, MatchTeam team) {
   }
 }
 
-public void Get5_OnSeriesResult(MatchTeam seriesWinner, int team1MapScore, int team2MapScore) {
+public void Get5_OnSeriesResult(MatchTeam seriesWinner, int team1MapScore, int team2MapScore, bool forfeit) {
   if (g_DisableStats)
     return;
 
